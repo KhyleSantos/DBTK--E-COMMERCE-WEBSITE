@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DBTK- E-Commerce Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin:0; 
+            scroll-behavior: smooth;
+        }
+
+        nav { 
+            background:#222; 
+            padding:15px; 
+            position:sticky; 
+            top:0; 
+        }
+
+        nav a { 
+            color:white; 
+            margin:15px; 
+            text-decoration:none; 
+            font-weight:bold;
+        }
+
+        nav a:hover { 
+            color:black; 
+        }
+
+        section {
+            padding:60px 20px;
+            min-height:100vh;
+        }
+
+        #home {
+            background:#f4f4f4;
+            text-align:center;
+        }
+
+        #products {
+            background:white;
+        }
+
+        .container { 
+            display:flex; 
+            flex-wrap:wrap; 
+            justify-content:center; 
+        }
+
+        .product { 
+            border:1px solid #ccc; 
+            margin:15px; 
+            padding:15px; 
+            width:220px; 
+            text-align:center; 
+            border-radius:8px;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .product img { 
+            width: 200px; 
+            height: 150px; 
+        }
+
+        button {
+            padding:8px 12px;
+            background:black;
+            border:none;
+            cursor:pointer;
+            color:white;
+            border-radius:4px;
+        }
+
+        button:hover {
+            background:#e60000
+        }
+
+        #product-details {
+            background:#f9f9f9;
+            text-align:center;
+            
+           
+        }
+
+        #about {
+            background:#eee;
+            text-align:center;
+        }
+
+        footer { 
+            background:#222; 
+            color:white; 
+            text-align:center; 
+            padding:15px; 
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+
+let cart = [];
+let currentProduct = {};
+
+function showPage(pageId) {
+    document.querySelectorAll("section").forEach(section => {
+        section.style.display = "none";
+    });
+    document.getElementById(pageId).style.display = "block";
+    window.scrollTo(0, 0);
+}
+
+window.onload = function() {
+    showPage("home");
+};
+
+function showDetails(button) {
+
+    let product = button.parentElement;
+
+    let name = product.getAttribute("data-name");
+    let img = product.getAttribute("data-img");
+    let desc = product.getAttribute("data-desc");
+    let price = product.getAttribute("data-price");
+
+    currentProduct = { name, img, desc, price };
+
+    document.getElementById("detail-name").innerText = name;
+    document.getElementById("detail-img").src = img;
+    document.getElementById("detail-desc").innerText = desc;
+    document.getElementById("detail-price").innerText = price;
+
+    showPage("product-details");
+}
+
+function addToCart() {
+
+    cart.push(currentProduct);
+
+    document.getElementById("cart-count").innerText = cart.length;
+
+    updateCart();
+    alert("Added to cart!");
+}
+
+function updateCart() {
+
+    let cartItems = document.getElementById("cart-items");
+    let total = 0;
+
+    cartItems.innerHTML = "";
+
+    cart.forEach((item, index) => {
+
+        total += parseInt(item.price);
+
+        cartItems.innerHTML += `
+            <div style="margin-bottom:15px;">
+                <strong>${item.name}</strong> - ₱${item.price}
+                <button onclick="removeItem(${index})">Remove</button>
+            </div>
+        `;
+    });
+
+    document.getElementById("cart-total").innerText = total;
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    document.getElementById("cart-count").innerText = cart.length;
+    updateCart();
+}
+
+</script>
+
+
+<nav>
+    <a href="#" onclick="showPage('home')">Home</a>
+    <a href="#" onclick="showPage('products')">Products</a>
+    <a href="#" onclick="showPage('about')">About Us</a>
+    <a href="#" onclick="showPage('contact')">Contact</a>
+    <a href="#" onclick="showPage('cart')">
+        Cart (<span id="cart-count">0</span>)
+    </a>
+</nav>
+
+
+<section id="home">
+    <h1>DBTK- Brand</h1>
+    <img src="imageDBTKLOGO.webp" width="80%" height="80%">
+    <p>ALL PRODUCTS.</p>
+    <a href="#products"><button onclick="showPage('products')">Shop Now</button></a>
+    
+</section>
+
+<section id="products">
+    <h2 style="text-align:center;">Our Products</h2>
+    <div class="container">
+
+      <div class="product"
+     data-name="CRAFTED TEE - WEHITE"
+     data-img="DBTK 1T-Shirt.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1299">
+
+    <img src="DBTK 1T-Shirt.webp">
+    <h3>CRAFTED TEE - BLACK</h3>
+    <p>₱1,299</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="CRAFTED TEE - BLACK"
+     data-img="DBTK 2T-Shirt.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1299">
+
+    <img src="DBTK 2T-Shirt.webp">
+    <h3>CRAFTED TEE - BLACK</h3>
+    <p>₱1,299</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+       <div class="product"
+     data-name="SLANT SPARKLINE TEE- BLACK"
+     data-img="DBTK 3T-Shirt.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1299">
+
+    <img src="DBTK 3T-Shirt.webp">
+    <h3>CRAFTED TEE - BLACK</h3>
+    <p>₱1,299</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="ITALIC FURRY TEE- WHITE"
+     data-img="DBTK 4T-Shirt.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1299">
+
+    <img src="DBTK 4T-Shirt.webp">
+    <h3>CRAFTED TEE - BLACK</h3>
+    <p>₱1,299</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 5T-Shirt.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1499">
+
+    <img src="DBTK 5T-Shirt.webp">
+    <h3>CRAFTED TEE - BLACK</h3>
+    <p>₱1,499</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+        <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 6HOODIE.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1499">
+
+    <img src="DBTK 6HOODIE.webp">
+    <h3>PATCH ELEMENTARY HOODIE - BLACK</h3>
+    <p>₱2,499</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 7HOODIE.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="2,499">
+
+    <img src="DBTK 7HOODIE.webp">
+    <h3>D STRIKE ZIP UP HOODIE BLACK</h3>
+    <p>₱2,499</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+          <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTL 8HOODIE.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="2,499">
+
+    <img src="DBTL 8HOODIE.webp">
+    <h3>D STRIKE ZIP UP HOODIE LIGHT YELLOW</h3>
+    <p>₱2,499</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 9HOODIE.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1499">
+
+    <img src="DBTK 9HOODIE.webp">
+    <h3>MERGE MEDITERRANEAN ZIP UP HOODIE</h3>
+    <p>₱2,499</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+         <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 10HOODIE.webp"
+     data-desc="Premium cotton crafted tee."
+     data-price="1499">
+
+    <img src="DBTK 10HOODIE.webp">
+    <h3>PATCH ELEMENTARY HODDIE- DARK GREEN</h3>
+    <p>₱2,499</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+         <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 11CAP.webp"
+     data-desc="Premium cotton Cap."
+     data-price="1499">
+
+    <img src="DBTK 11CAP.webp">
+    <h3>LA PATCHES DAD CAP</h3>
+    <p>₱1,199</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 12CAP.webp"
+     data-desc="Premium cotton Cap."
+     data-price="1499">
+
+    <img src="DBTK 12CAP.webp">
+    <h3>TOON CLUTCH CURDORUY DAD HAT</h3>
+    <p>₱1,199</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+       <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 13CAP.webp"
+     data-desc="Premium cotton Cap."
+     data-price="1499">
+
+    <img src="DBTK 13CAP.webp">
+    <h3>SPARK NATURE CAMO CAP</h3>
+    <p>₱1,199</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+        <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 14CAP.webp"
+     data-desc="Premium cotton Cap."
+     data-price="1499">
+
+    <img src="DBTK 14CAP.webp">
+    <h3>DBTK LA SNAP BLACK / GRAY</h3>
+    <p>₱1,199</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+       <div class="product"
+     data-name="DBTK DAILY TEE PACK - BLACK"
+     data-img="DBTK 15CAP.webp"
+     data-desc="Premium cotton Cap."
+     data-price="1499">
+
+    <img src="DBTK 15CAP.webp">
+    <h3K>DBKT LA SNAP BACK - WHITE / ROYAl BLUE</h3>
+    <p>₱1,199</p>
+    <button onclick="showDetails(this)">View Details</button>
+</div>
+
+    </div>
+</section>
+
+<section id="product-details">
+    <h2 id="detail-name"></h2>
+
+    <img id="detail-img" style="width:300px; margin:30px 0;">
+
+    <p id="detail-desc"></p>
+
+    <h3>₱<span id="detail-price"></span></h3>
+
+    <br>
+    <button onclick="addToCart()">Add to Cart</button>
+    <br><br>
+    <button onclick="showPage('products')">Back to Products</button>
+</section>
+<section id="about">
+    <h2>About Us</h2>
+    <p style="text-align: left;">we believe style is more than clothing its a reflection of who you are. <br> <br>
+
+Founded on the principle that creativity defines identity, DBTK was built for individuals who move with confidence. <br>
+In a world of passing trends and fast fashion, we create pieces that last in quality, in style, and in meaning.<br><br>
+
+Every DBTK piece is crafted with attention to detail. From premium fabrics and precise construction to thoughtfully designed graphics, <br>
+each element reflects originality, durability, and culture. We believe style doesnt need to shout it speaks through authenticity. <br><br>
+
+
+Our design philosophy is simple: <br>
+Originality first. Culture always. Purpose in every piece..<br><br>
+
+DBTK is made for the bold for those who challenge norms and create their own lane. From daily wear to<br>
+ standout moments, our pieces are built to reflect your energy and ambition.<br>
+
+We stand on three core principles:<br><br>
+
+Creativity   – Because originality sets you apart.<br>
+Authenticity – Because real style starts with being true to yourself.<br>
+Impact       – Because what you wear should mean something.<br><br>
+
+More than a brand, DBTK represents creativity, confidence, and bold individuality. It’s a reminder that your dentity is your greatest power.<br><br>
+
+Don’t Blame The Kids.</p>
+
+<p>We prioritize customer satisfaction and are committed to delivering a seamless, reliable, and enjoyable online shopping experience.
+.</p>
+</section>
+
+<section id="contact" style="background:#f4f4f4; text-align:center;">
+    <h2>Contact Us</h2>
+    <p>We would love to hear from you!</p>
+
+    <form style="max-width:500px; margin:auto;">
+        <input type="text" placeholder="Your Name" required 
+               style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
+
+        <input type="email" placeholder="Your Email" required 
+               style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
+
+        <textarea placeholder="Your Message" rows="5" required 
+                  style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;"></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+
+    <p style="margin-top:20px;">
+        📧 Email: DBTKSHOP.com <br>
+        📞 Phone: +1 654 394 867 <br>
+        📍 Address: 687 Mabalact City
+    </p>
+</section>
+<section id="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <h3>Total: ₱<span id="cart-total">0</span></h3>
+</section>
+<footer>
+    © 2026 DBTKShop | All Rights Reserved
+</footer>
+
+</body>
+</html                          
